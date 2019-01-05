@@ -1,77 +1,43 @@
-#[cfg(feature = "dx12")]
-extern crate gfx_backend_dx12 as back;
-#[cfg(feature = "metal")]
-extern crate gfx_backend_metal as back;
-#[cfg(feature = "vulkan")]
-extern crate gfx_backend_vulkan as back;
-extern crate gfx_hal as hal;
+use winit::{dpi::LogicalSize, CreationError, Event, EventsLoop, Window, WindowBuilder, WindowEvent};
 
-use winit::{dpi, ControlFlow, Event, EventsLoop, Window, WindowBuilder, WindowEvent};
-
-static WINDOW_NAME: &str = "Learn gfx-hal: Opening A Window";
+pub const WINDOW_NAME: &str = "Hello Winit";
 
 fn main() {
-  let mut application = WindowApp::init();
-  application.run();
-  application.clean_up();
-}
-
-struct WindowState {
-  events_loop: EventsLoop,
-  _window: Window,
-}
-
-struct HalState {}
-
-impl HalState {
-  fn clean_up(self) {}
-}
-
-struct WindowApp {
-  hal_state: HalState,
-  window_state: WindowState,
-}
-
-impl WindowApp {
-  pub fn init() -> Self {
-    let window_state = Self::init_window();
-    let hal_state = Self::init_hal();
-
-    Self { hal_state, window_state }
-  }
-
-  fn init_window() -> WindowState {
-    let events_loop = EventsLoop::new();
-    let window = WindowBuilder::new()
-      .with_dimensions(dpi::LogicalSize::new(1024., 768.))
-      .with_title(WINDOW_NAME)
-      .build(&events_loop)
-      .expect("Could not create a window!");
-    WindowState {
-      events_loop,
-      _window: window,
-    }
-  }
-
-  fn init_hal() -> HalState {
-    HalState {}
-  }
-
-  fn main_loop(&mut self) {
-    self.window_state.events_loop.run_forever(|event| match event {
+  let mut winit_state = WinitState::default();
+  let mut running = true;
+  while running {
+    winit_state.events_loop.poll_events(|event| match event {
       Event::WindowEvent {
         event: WindowEvent::CloseRequested,
         ..
-      } => ControlFlow::Break,
-      _ => ControlFlow::Continue,
+      } => running = false,
+      _ => (),
     });
   }
+}
 
-  fn run(&mut self) {
-    self.main_loop();
+#[derive(Debug)]
+pub struct WinitState {
+  pub events_loop: EventsLoop,
+  pub window: Window,
+}
+impl WinitState {
+  /// Constructs a new `EventsLoop` and `Window` pair.
+  ///
+  /// The specified title and size are used, other elements are default.
+  /// ## Failure
+  /// It's possible for the window creation to fail. This is unlikely.
+  pub fn new<T: Into<String>>(title: T, size: LogicalSize) -> Result<Self, CreationError> {
+    let events_loop = EventsLoop::new();
+    let output = WindowBuilder::new().with_title(title).with_dimensions(size).build(&events_loop);
+    output.map(|window| Self { events_loop, window })
   }
-
-  fn clean_up(self) {
-    self.hal_state.clean_up();
+}
+impl Default for WinitState {
+  /// Makes an 800x600 window with the `WINDOW_NAME` value as the title.
+  /// ## Panics
+  /// If a `CreationError` occurs.
+  fn default() -> Self {
+    Self::new(WINDOW_NAME, LogicalSize { width: 800.0, height: 600.0 }).expect("Could not create a window!")
   }
 }

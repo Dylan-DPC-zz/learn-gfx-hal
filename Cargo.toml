@@ -9,10 +9,6 @@ edition = "2018"
 description = "A tutorial for using that monster of a library."
 license = "Apache-2.0"
 
-[badges]
-appveyor = { repository = "Lokathor/learn-gfx-hal" }
-travis-ci = { repository = "Lokathor/learn-gfx-hal" }
-
 [features]
 default = []
 metal = ["gfx-backend-metal"]
@@ -22,9 +18,9 @@ vulkan = ["gfx-backend-vulkan"]
 [dependencies]
 winit = "0.18"
 gfx-hal = "0.1"
-glsl-to-spirv = "0.1.6"
-log = "0.4.0"
-env_logger = "0.5.12"
+#glsl-to-spirv = "0.1.6"
+#log = "0.4.0"
+#env_logger = "0.5.12"
 
 [dependencies.gfx-backend-vulkan]
 version = "0.1"
