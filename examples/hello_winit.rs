@@ -8,10 +8,10 @@ extern crate gfx_hal as hal;
 
 use winit::{dpi, ControlFlow, Event, EventsLoop, Window, WindowBuilder, WindowEvent};
 
-static WINDOW_NAME: &str = "00_base_code";
+static WINDOW_NAME: &str = "Learn gfx-hal: Opening A Window";
 
 fn main() {
-  let mut application = HelloTriangleApplication::init();
+  let mut application = WindowApp::init();
   application.run();
   application.clean_up();
 }
@@ -27,25 +27,26 @@ impl HalState {
   fn clean_up(self) {}
 }
 
-struct HelloTriangleApplication {
+struct WindowApp {
   hal_state: HalState,
   window_state: WindowState,
 }
 
-impl HelloTriangleApplication {
-  pub fn init() -> HelloTriangleApplication {
-    let window_state = HelloTriangleApplication::init_window();
-    let hal_state = HelloTriangleApplication::init_hal();
+impl WindowApp {
+  pub fn init() -> Self {
+    let window_state = Self::init_window();
+    let hal_state = Self::init_hal();
 
-    HelloTriangleApplication { hal_state, window_state }
+    Self { hal_state, window_state }
   }
 
   fn init_window() -> WindowState {
     let events_loop = EventsLoop::new();
-    let window_builder = WindowBuilder::new()
+    let window = WindowBuilder::new()
       .with_dimensions(dpi::LogicalSize::new(1024., 768.))
-      .with_title(WINDOW_NAME.to_string());
-    let window = window_builder.build(&events_loop).unwrap();
+      .with_title(WINDOW_NAME)
+      .build(&events_loop)
+      .expect("Could not create a window!");
     WindowState {
       events_loop,
       _window: window,

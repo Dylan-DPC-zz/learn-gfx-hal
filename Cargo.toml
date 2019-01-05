@@ -9,9 +9,9 @@ edition = "2018"
 description = "A tutorial for using that monster of a library."
 license = "Apache-2.0"
 
-#[badges]
-#appveyor = { repository = "Lokathor/randomize-rs" }
-#travis-ci = { repository = "Lokathor/randomize-rs" }
+[badges]
+appveyor = { repository = "Lokathor/learn-gfx-hal" }
+travis-ci = { repository = "Lokathor/learn-gfx-hal" }
 
 [features]
 default = []
