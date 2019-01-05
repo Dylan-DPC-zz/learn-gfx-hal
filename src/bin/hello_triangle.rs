@@ -1,6 +1,6 @@
 use winit::{dpi::LogicalSize, CreationError, Event, EventsLoop, Window, WindowBuilder, WindowEvent};
 
-pub const WINDOW_NAME: &str = "Hello Winit";
+pub const WINDOW_NAME: &str = "Hello Triangle";
 
 fn main() {
   let mut winit_state = WinitState::default();

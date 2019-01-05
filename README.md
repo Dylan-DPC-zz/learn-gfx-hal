@@ -6,12 +6,27 @@
 
 # learn-gfx-hal
 
-Step by step tutorials for gfx-hal
+Step by step tutorials for using the `gfx-hal` crate.
+
+The tutorials all target the current version _on crates.io_, not on the master
+branch of git. At the time of me writing this that means `0.1.0`.
+
+This is _not_ a library crate for you to import into your own projects. It is a
+book and examples for you read and learn from.
+
+* Fully working examples are in the `examples/` directory.
+* Work in progress stuff is in the `src/` directory. RLS just behaves better
+  that way.
+* The rendered version of the book text is on the [GitHub Pages
+  site](https://gfx-rs.github.io/learn-gfx-hal/).
 
 ## Contribution
 
 This repo is Apache 2 licensed and all of your contributions must be made under
 that license.
 
-I'm not a gfx-hal expert at all, if I've made a mistake anywhere please open an
-issue and explain what's wrong.
+The primary ~~author~~ quixotic fool of the project is me, Lokathor. I manage to
+explain things in a way that beginners can understand by not actually knowing
+anything myself. If there are mistakes that have crept into the document please
+file an issue. You also attempt to contact me interactively on the `#gamedev`
+channel of the [community discord](https://bit.ly/rust-community).
