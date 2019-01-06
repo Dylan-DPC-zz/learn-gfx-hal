@@ -78,12 +78,10 @@ extern crate gfx_backend_dx12 as back;
 extern crate gfx_backend_metal as back;
 #[cfg(feature = "vulkan")]
 extern crate gfx_backend_vulkan as back;
-extern crate gfx_hal as hal;
 ```
 
 Yes, in the 2018 edition it's not _strictly necessary_ to have `extern crate`
-any more, but making the shorthand alias names is very nice, so we'll do it like
-this.
+any more, but this way we can alias whichever backend we pick to just be `back`.
 
 Finally, before we go on, I'll mention that there _are_ other backend options
 that we haven't considered:

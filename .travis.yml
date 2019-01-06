@@ -15,8 +15,8 @@ before_script:
   - cargo install-update -a
 
 script:
-  - cargo build --features="vulkan"
-  - cargo build --features="vulkan" --release
+  #- cargo build --features="vulkan"
+  #- cargo build --features="vulkan" --release
   - cd book && mdbook build
 
 deploy:

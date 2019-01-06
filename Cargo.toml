@@ -20,7 +20,7 @@ log = "0.4.0"
 env_logger = "0.5.12"
 winit = "0.18"
 gfx-hal = "0.1"
-#glsl-to-spirv = "0.1.6"
+glsl-to-spirv = "0.1.6"
 
 [dependencies.gfx-backend-vulkan]
 version = "0.1"
