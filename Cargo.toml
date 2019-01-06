@@ -16,11 +16,11 @@ dx12 = ["gfx-backend-dx12"]
 vulkan = ["gfx-backend-vulkan"]
 
 [dependencies]
+log = "0.4.0"
+env_logger = "0.5.12"
 winit = "0.18"
 gfx-hal = "0.1"
 #glsl-to-spirv = "0.1.6"
-#log = "0.4.0"
-#env_logger = "0.5.12"
 
 [dependencies.gfx-backend-vulkan]
 version = "0.1"

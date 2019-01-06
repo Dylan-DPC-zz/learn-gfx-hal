@@ -6,12 +6,48 @@ extern crate gfx_backend_metal as back;
 extern crate gfx_backend_vulkan as back;
 extern crate gfx_hal as hal;
 
+use hal::{adapter::PhysicalDevice, queue, Adapter, Gpu, Graphics, Instance, QueueFamily, Surface};
 use winit::{dpi::LogicalSize, CreationError, Event, EventsLoop, Window, WindowBuilder, WindowEvent};
 
 pub const WINDOW_NAME: &str = "Hello Triangle";
 
 fn main() {
+  env_logger::init();
+
   let mut winit_state = WinitState::default();
+
+  let instance = back::Instance::create(WINDOW_NAME, 1);
+  let surface = instance.create_surface(&winit_state.window);
+  let adapter = instance
+    .enumerate_adapters()
+    .into_iter()
+    .filter(|a| {
+      a.queue_families
+        .iter()
+        .find(|qf| qf.supports_graphics() && qf.max_queues() > 0 && surface.supports_queue_family(qf))
+        .is_some()
+    })
+    .next()
+    .expect("Couldn't find a graphical Adapter!");
+  let (device, command_queues) = {
+    let queue_family = adapter
+      .queue_families
+      .iter()
+      .find(|qf| qf.supports_graphics() && qf.max_queues() > 0 && surface.supports_queue_family(qf))
+      .expect("Couldn't find a QueueFamily with graphics!");
+    let Gpu { device, mut queues } = unsafe {
+      adapter
+        .physical_device
+        .open(&[(&queue_family, &[1.0; 1])])
+        .expect("Couldn't open the PhysicalDevice!")
+    };
+    let queue_group = queues
+      .take::<Graphics>(queue_family.id())
+      .expect("Couldn't take ownership of the QueueGroup!");
+    debug_assert!(queue_group.queues.len() > 0);
+    (device, queue_group.queues)
+  };
+
   let mut running = true;
   while running {
     winit_state.events_loop.poll_events(|event| match event {
