@@ -7,15 +7,16 @@ open a window.
 
 To open a window in Rust, you want to use the [winit](https://docs.rs/winit/)
 crate to get the best cross-platform coverage available. At the time of writing,
-the latest version is 0.18.
+the latest version is 0.18. Setup a project for this tutorial however you like
+and just add `winit` into your `Cargo.toml`:
 
 ```toml
 [dependencies]
 winit = "0.18"
 ```
 
-The `winit` crate is usually "mostly stable". There's small breaks with new
-versions, but it's usually plain enough to see what the new types or methods
+The `winit` crate is what you'd call "mostly stable". There's small breaks with
+new versions, but it's usually plain enough to see what the new types or methods
 that you need to move to are.
 
 The [crate documentation](https://docs.rs/winit/0.18.0/winit/#building-a-window)
@@ -133,9 +134,15 @@ fn main() {
 }
 ```
 
-If you run this you get a white window. It's kinda weird if you make it bigger,
-or even just smaller and then bigger. The area that becomes exposed just stays
-black. That's because the window doesn't know how to draw anything yet. For that
-we need the next lesson.
+If you run this you get an all white window. Actually, without anything being
+drawn to the window, it might instead show all black, or even just garbage pixel
+data. It depends on your windowing system.
+
+Also, normally an application would use "Vertical Synchronization" (Vsync) to
+slow down the main loop. Without any drawing code we can't use vsync, so the
+loop will spin around and use 100% of the CPU.
+
+Both of those things are no good, but this is just a stepping stone and we learn
+to draw stuff in the next lesson, so it's fine.
 
 All of the code discussed here is available within the `hello_winit` example.

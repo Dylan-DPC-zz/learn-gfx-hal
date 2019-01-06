@@ -50,11 +50,12 @@ version = "0.1"
 optional = true
 ```
 
-If you want RLS to play nice with the various optional features you can define
-one of them as default. If you're using VS Code with the RLS plugin, instead of
-messing up your `Cargo.toml` you can make a `.vscode/settings.json` file in your
-project folder and then place a setting for the feature you want it to pick as
-default when RLS runs:
+If you want RLS to play nice with the various optional features you must tell it
+which one to use for its compilations. If you're using VS Code with the RLS
+plugin, instead of messing up your `Cargo.toml` by specifying a default feature
+you can instead make a `.vscode/settings.json` file in your project folder and
+then place a setting for the feature you want it to use for RLS runs. Something
+like this:
 
 ```json
 {
@@ -64,8 +65,9 @@ default when RLS runs:
 }
 ```
 
-If you've got other editors using RLS then they can probably be configured
-similarly, but I don't know the details there.
+If you're using RLS with some editor besides VS Code I'm afraid I don't know the
+details of how you tell it to use a particular feature, but you probably can.
+Consult your plugin docs, and such.
 
 Over inside our main file we put some conditional stuff at the top:
 
@@ -80,6 +82,22 @@ extern crate gfx_hal as hal;
 ```
 
 Yes, in the 2018 edition it's not _strictly necessary_ to have `extern crate`
-any more, but making the shorthand alias names is very nice, so we'll do it.
+any more, but making the shorthand alias names is very nice, so we'll do it like
+this.
+
+Finally, before we go on, I'll mention that there _are_ other backend options
+that we haven't considered:
+
+* [gfx-backend-empty](https://crates.io/crates/gfx-backend-empty) does nothing
+  but provide the required implementations as `unimplemented!()`. You might use
+  this with RLS or something, but you can't actually draw a picture with it.
+* [gfx-backend-gl](https://crates.io/crates/gfx-backend-gl) lets you target
+  OpenGL 2.1+ and OpenGL ES2+. You'd probably use this if you wanted to run in a
+  webpage, or perhaps on a Raspberry Pi (which has OpenGL ES2 drivers, but not
+  Vulkan), or something like that where you couldn't pick one of the main
+  options. Unfortunately, the GL backend is actually a little busted at the
+  moment. The biggest snag is that webpages and desktop apps have rather
+  different control flow, so it's hard to come up with a unified API. Work is
+  being done, and hopefully soon I'll be able to recommend the GL backend.
 
 ## Create an Instance
